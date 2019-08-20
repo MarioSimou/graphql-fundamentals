@@ -1,3 +1,8 @@
+import Link from '../../models/Link'
+
 export const Query = {
-  hello: () => 'hellow'
+  links: async ( parent , { data }, content, info ) => {
+    console.log(data)
+    return await Link.find({ ...data })     
+  }
 }
