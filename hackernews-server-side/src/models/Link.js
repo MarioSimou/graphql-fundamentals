@@ -6,7 +6,7 @@ const LinkSchema = new Schema({
   description: { type: String },
   url: { type: String, unique: true },
   createdAt: { type: Date, default: new Date() },
-  modified_at: { type: Date, default: new Date() }
+  modifiedAt: { type: Date, default: new Date() }
 })
 
 

@@ -3,6 +3,7 @@ import { ApolloProvider } from 'react-apollo-hooks'
 import { getClient } from '../utils/getClient'
 import { Route, Router, Switch } from 'react-router-dom'
 import Home from './Home'
+import CreateLink from './CreateLink'
 import history from '../utils/history'
 
 const client = getClient({ uri: 'http://localhost:3001/graphql' , credentials: 'same-origin' })
@@ -14,6 +15,7 @@ const App = () => {
         <Router history={history}>
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/link" exact component={CreateLink} />
           </Switch>
         </Router>
       </ApolloProvider>

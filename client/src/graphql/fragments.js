@@ -5,7 +5,7 @@ fragment LinkItem on Link {
   id
   description
   url
-  created_at
-  modified_at
+  createdAt
+  modifiedAt
 }
 `
