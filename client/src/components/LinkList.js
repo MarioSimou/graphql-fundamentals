@@ -1,16 +1,24 @@
 import React from 'react'
 import Link from './Link'
-import { useQuery} from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import { LINKS_QUERY } from '../graphql/queries'
 
 const LinkList = () => {
-  const { data, error } = useQuery( LINKS_QUERY, { variables: { }, suspend: true } )
+  const [links,setLinks] = React.useState([])
+  const { data, loading, refetch } = useQuery( LINKS_QUERY, { fetchPolicy: 'cache-and-network'} )
+  // const onClickRefresh = () => refetch().then(({data}) => setLinks(data.links))
   
-  console.log(data)
+  if( loading ) return <div>Loading...</div>
+  if(data && data.links && data.links.length !== links.length ) setLinks(data.links)
+
+
   return (
+    <>
     <div id="link-list">
-      { data.links.map( link => <Link key={link.id} link={link}></Link> )}
+      { links.map( link => <Link key={link.id} link={link}></Link> )}
     </div>
+    {/* <button onClick={onClickRefresh}>Refresh</button> */}
+    </>
   )
 }
 

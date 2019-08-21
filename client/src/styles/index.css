@@ -1,5 +1,6 @@
 :root {
-  font-size: 18px
+  font-size: 18px;
+  --text: #fff;
 }
 
 * {
@@ -39,16 +40,22 @@ input {
   width: 85%;
 }
 
-.button {
-  font-family: monospace;
-  font-size: 10pt;
-  color: black;
-  background-color: buttonface;
+#navbar {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr ));
+  grid-column-gap: 1rem;
+  padding: 1rem 2rem;
+  background-color: teal;
+  color: var(--text);
+}
+#navbar > a { 
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-bottom: 1.25px solid transparent;
   text-align: center;
-  padding: 2px 6px 3px;
-  border-width: 2px;
-  border-style: outset;
-  border-color: buttonface;
-  cursor: pointer;
-  max-width: 250px;
+}
+#navbar > a:hover {
+  border-bottom: 1.25px solid var(--text);
 }
