@@ -1,10 +1,21 @@
 import React from 'react'
+import { useMutation } from '@apollo/react-hooks'
+import { CREATE_USER } from '../graphql/mutations'
+import history from '../utils/history'
 
 const Register = () => {
   const [username,setUsername] = React.useState('')
   const [email,setEmail] = React.useState('')
   const [password,setPassword] = React.useState('')
+  const [submitForm] = useMutation( CREATE_USER, {fetchPolicy: 'cache-only'}) 
 
+  const onSubmitForm = e => {
+    e.preventDefault()
+    if(username && email && password ){
+      submitForm({ variables: { data: username, email, password }})
+      .then(({data})=> console.log('redirect to home page'))  
+    }
+  }
   const onChangeEmail = e => setEmail(e.target.value)
   const onChangeUsername = e => setUsername(e.target.value)
   const onChangePassword = e => setPassword(e.target.value)
@@ -45,7 +56,7 @@ const Register = () => {
           />
         </div>
         <div style={styles.formGroup}>
-          <button style={styles.submitBtn}>Submit</button>
+          <button style={styles.submitBtn} onClick={onSubmitForm}>Submit</button>
         </div>
       </form>
     </div>

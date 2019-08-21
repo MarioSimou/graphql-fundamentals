@@ -6,6 +6,17 @@ type Query {
 }
 type Mutation {
   createLink(data:LinkCreateDataInput!): Link!
+  createUser(data:UserCreateInput!): UserAuthResponse!
+  loginUser(data:UserLoginInput!): UserAuthResponse!
+}
+
+type User implements Node & Timestamp {
+  id: ID!
+  username: String!
+  email: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Link implements Node & Timestamp {
@@ -13,7 +24,26 @@ type Link implements Node & Timestamp {
   description: String!
   url: String!
   createdAt: String!
-  modifiedAt: String!
+  updatedAt: String!
+}
+
+type UserAuthResponse implements Response {
+  status: Int!
+  success: Boolean!
+  message: String!
+  token: String
+  user: User
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
+}
+
+input UserCreateInput {
+  username: String!
+  email: String!
+  password: String!
 }
 
 input LinkDataInput {
@@ -32,6 +62,12 @@ interface Node {
 
 interface Timestamp {
   createdAt: String!
-  modifiedAt: String!
+  updatedAt: String!
+}
+
+interface Response {
+  status: Int!
+  success: Boolean!
+  message: String!
 }
 `
