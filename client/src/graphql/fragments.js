@@ -9,3 +9,13 @@ fragment LinkItem on Link {
   modifiedAt
 }
 `
+
+export const UserItem = gql`
+fragment UserItem on User {
+  id
+  username
+  email
+  password
+}
+
+`

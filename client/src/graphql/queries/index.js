@@ -10,5 +10,5 @@ query links($data:LinkDataInput){
     ${f.spreadFragment( LinkItem , f.searchProperty )}
   }
 }
-${f.listFragment( LinkItem, f.searchProperty )}
+${f.listFragment( LinkItem, 'Link' , f.searchProperty )}
 `

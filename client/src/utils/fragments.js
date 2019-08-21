@@ -13,8 +13,8 @@ const searchProperty = (a , s) => {
   }
 }
 const spreadFragment = ( fragment , searchFun ) => `...${searchFun( fragment , 'name' ).value}`
-const listFragment = ( fragment , searchFun ) => {
-  return `fragment ${searchFun(fragment,'name').value} on Link {
+const listFragment = ( fragment , typeName, searchFun ) => {
+  return `fragment ${searchFun(fragment,'name').value} on ${typeName} {
     ${searchFun(fragment, 'selections').map( v => v.name.value ).join(',\n')}
   }`
 }

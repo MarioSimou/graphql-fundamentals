@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 import {
-  LinkItem
+  LinkItem,
+  UserItem
 } from '../fragments'
 import f from '../../utils/fragments'
 
@@ -10,5 +11,35 @@ mutation createLink($data:LinkCreateDataInput!){
     ${f.spreadFragment(LinkItem,f.searchProperty)}
   }
 }
-${f.listFragment(LinkItem,f.searchProperty)}
+${f.listFragment(LinkItem,'Link',f.searchProperty)}
+`
+
+export const CREATE_USER = gql`
+mutation createUser($data:UserCreateInput!){
+  createUser(data:$data){
+    status
+    success
+    message
+    token
+    user {
+      ${f.spreadFragment(UserItem,f.searchProperty)}
+    }
+  }
+}
+${f.listFragment(UserItem,'User',f.searchProperty)}
+`
+
+export const LOGIN_USER = gql`
+mutation loginUser($data:UserLoginInput!){
+  loginUser(data:$data){
+    status
+    success
+    message
+    token
+    user {
+      ${f.spreadFragment(UserItem,f.searchProperty)}
+    }
+  }
+}
+${f.listFragment(UserItem,'User',f.searchProperty)}
 `
