@@ -2,10 +2,10 @@ import gql from 'graphql-tag'
 
 export default gql `
 type Query {
-  links(data:LinkDataInput): [Link]!
+  links(data:LinkDataInput): LinksResponse!
 }
 type Mutation {
-  createLink(data:LinkCreateDataInput!): Link!
+  createLink(data:LinkCreateDataInput!): LinkResponse!
   createUser(data:UserCreateInput!): UserAuthResponse!
   loginUser(data:UserLoginInput!): UserAuthResponse!
 }
@@ -25,6 +25,19 @@ type Link implements Node & Timestamp {
   url: String!
   createdAt: String!
   updatedAt: String!
+}
+
+type LinksResponse implements Response {
+  status: Int!
+  success: Boolean!
+  message: String!
+  links: [Link]!
+}
+type LinkResponse implements Response {
+  status: Int!
+  success: Boolean!
+  message: String!
+  link: Link
 }
 
 type UserAuthResponse implements Response {

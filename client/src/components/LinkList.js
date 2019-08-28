@@ -9,11 +9,12 @@ const LinkList = () => {
   // const onClickRefresh = () => refetch().then(({data}) => setLinks(data.links))
   
   if( loading ) return <div>Loading...</div>
-  if(data && data.links && data.links.length !== links.length ) setLinks(data.links)
+  if(data && data.links && data.links.links.length !== links.length ) setLinks(data.links.links)
 
 
   return (
     <>
+    <div>Length: {links.length} </div>
     <div id="link-list">
       { links.map( link => <Link key={link.id} link={link}></Link> )}
     </div>

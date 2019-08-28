@@ -6,19 +6,27 @@ import history from '../utils/history'
 const CreateLink = () => {
   const [ description, setDescription ] = React.useState('')
   const [ url, setUrl ] = React.useState('')
+  
   // submitForm -> promise to create the link
   const [submitForm] = useMutation( CREATE_LINK_MUTATION, { fetchPolicy: 'no-cache'}) // only supported policy for mutations
   const onChangeDesc = e => setDescription(e.target.value)
   const onChangeUrl = e => setUrl(e.target.value)
   const onClickSubmit = e => {
     e.preventDefault()
-    submitForm({ variables: { data: { description, url } }})
-    .then(({data})=> {
-      if(data && data.createLink && data.createLink.id ) history.push('/')
-    })
-  }
+    if( description && url ){
+      submitForm({ variables: { data: { description, url } }})
+      .then(({data})=> {
+        if( data && data.createLink && data.createLink.success ){
+          history.push('/')
+        } else {
+          window.alert(data.createLink.message)
+        }
+      })  
+    } else {
+      window.alert('Fill all the parameters')
+    }
 
-  // if(data && data.createLink && data.createLink.id ) history.push('/')
+  }
   
   return (
     <div id="create-link">

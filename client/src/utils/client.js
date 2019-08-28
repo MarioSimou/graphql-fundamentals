@@ -4,8 +4,7 @@ import { HttpLink } from 'apollo-link-http'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 
-
-export const getClient = http => new ApolloClient({
+export const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
@@ -16,7 +15,13 @@ export const getClient = http => new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    new HttpLink(http)
+    new HttpLink({
+      uri: 'http://localhost:3001/graphql',
+      credentials: 'same-origin',
+      headers: {
+        'authorization': sessionStorage.getItem('token') ? `Bearer ${sessionStorage.getItem('token')}` : ''
+      }
+    })
   ]),
   cache: new InMemoryCache()
 });

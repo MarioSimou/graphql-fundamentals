@@ -3,17 +3,28 @@ import { useMutation } from '@apollo/react-hooks'
 import { CREATE_USER } from '../graphql/mutations'
 import history from '../utils/history'
 
-const Register = () => {
+const RegisterForm = ({setIsSigned}) => {
   const [username,setUsername] = React.useState('')
   const [email,setEmail] = React.useState('')
   const [password,setPassword] = React.useState('')
-  const [submitForm] = useMutation( CREATE_USER, {fetchPolicy: 'cache-only'}) 
+  const [submitForm] = useMutation( CREATE_USER, {fetchPolicy: 'no-cache'}) 
 
   const onSubmitForm = e => {
     e.preventDefault()
-    if(username && email && password ){
-      submitForm({ variables: { data: username, email, password }})
-      .then(({data})=> console.log('redirect to home page'))  
+    if( username && email && password ){
+      submitForm({ variables: { data: { username, email, password }}})
+      .then(({data})=> {
+        if(data.createUser.success){
+          const { user, token } = data.createUser
+          sessionStorage.setItem('token', token )
+          sessionStorage.setItem('user', JSON.stringify(user))
+          setIsSigned(true)
+          history.push('/')
+        } else window.alert(data.createUser.message)
+      })  
+      .catch(e => window.alert(e))
+    }else {
+      window.alert('Fill all the fields to continue')
     }
   }
   const onChangeEmail = e => setEmail(e.target.value)
@@ -21,7 +32,6 @@ const Register = () => {
   const onChangePassword = e => setPassword(e.target.value)
 
   return (
-    <div id="register" style={styles.root}>
       <form autoComplete="off" style={styles.form}>
         <div style={styles.formGroup}>
           <input type="text" 
@@ -59,17 +69,10 @@ const Register = () => {
           <button style={styles.submitBtn} onClick={onSubmitForm}>Submit</button>
         </div>
       </form>
-    </div>
   )
 }
 
-const styles = {
-  root : {
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-  },
+export const styles = {
   form: {
     minWidth: '500px',
   },
@@ -95,4 +98,4 @@ const styles = {
   }
 }
 
-export default Register
+export default RegisterForm

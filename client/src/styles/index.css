@@ -55,13 +55,14 @@ input {
 }
 
 #navbar {
+  padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   background-color: teal;
   color: var(--text);
 }
-#navbar > a { 
+#navbar  a { 
   color: var(--text);
   text-decoration: none;
   margin: 0.5rem 0;

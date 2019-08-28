@@ -9,15 +9,17 @@ const app = express(),
       server = http.createServer( app ),
       port = process.env.PORT || 3001
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers })
-apolloServer.applyMiddleware({ app , path : '/graphql' })
-apolloServer.installSubscriptionHandlers( server )
-
 mongoose.connect( process.env.MONGO_URI, { useNewUrlParser: true })
 .then( connection => {
   // events listening to db connection
   mongoose.connection.on('error', e => process.stdout.write(`${JSON.stringify(e)}\n`) )
   mongoose.connection.once('open' , e => process.stdout.write(`successful connection..`))
+
+  const context = request => ({ authorization: request.req.headers.authorization })
+  const apolloServer = new ApolloServer({ typeDefs, resolvers, context })
+  apolloServer.applyMiddleware({ app , path : '/graphql' })
+  apolloServer.installSubscriptionHandlers( server )
+  
 
   // launch the server
   server.listen( port , () => {

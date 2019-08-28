@@ -1,14 +1,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import history from '../utils/history'
+import { client } from '../utils/client'
 
+const Navbar = ({isSigned,setIsSigned}) => {
+  const onClickLogout = () => {
+    sessionStorage.clear()
+    client.clearStore()
+    .then(()=> {
+      client.resetStore()
+      setIsSigned(false)
+      history.push('/login')  
+    })
+  }
 
-const Navbar = () => {
   return (
     <div id="navbar" >
-      <Link to="/">Home</Link>
-      <Link to="/link/new">Create Link</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register</Link>
+      <div>
+        <Link to="/">Home</Link>
+        <Link to="/link/new">Create Link</Link>
+      </div>
+      <div>
+        {!isSigned &&<Link to="/login">Log in</Link>}
+        {isSigned && <Link to="/" onClick={onClickLogout}>Logout</Link>}
+      </div>
     </div>  
   )
 }

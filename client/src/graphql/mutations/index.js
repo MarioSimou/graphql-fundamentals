@@ -8,7 +8,12 @@ import f from '../../utils/fragments'
 export const CREATE_LINK_MUTATION = gql`
 mutation createLink($data:LinkCreateDataInput!){
   createLink(data:$data){
-    ${f.spreadFragment(LinkItem,f.searchProperty)}
+    status
+    success
+    message
+    link {
+      ${f.spreadFragment(LinkItem,f.searchProperty)}
+    }
   }
 }
 ${f.listFragment(LinkItem,'Link',f.searchProperty)}

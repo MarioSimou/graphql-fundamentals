@@ -7,7 +7,12 @@ import f from '../../utils/fragments'
 export const LINKS_QUERY = gql`
 query links($data:LinkDataInput){
   links(data:$data){
-    ${f.spreadFragment( LinkItem , f.searchProperty )}
+    status
+    success
+    message
+    links {
+      ${f.spreadFragment( LinkItem , f.searchProperty )}
+    }
   }
 }
 ${f.listFragment( LinkItem, 'Link' , f.searchProperty )}
